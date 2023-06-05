@@ -27,13 +27,16 @@ AudioFile = {}
 ---@param path string
 ---@return AudioFile
 function AudioFile.open(path) end
+
 ---Function to analyze the pitch of an audio file.
 ---@param callback? function
 ---@param channel? number
 function _AudioFile:analyzePitch(callback, channel) end
+
 ---Function to cancel a pitch analysis you started with analyzePitch.
 ---@param channel number
 function _AudioFile:cancelPitchAnalysis(channel) end
+
 ---Function to analyze the onsets in an audio file.
 ---@param start number The start position in samples.
 ---@param length number The duration in samples. Set this to equal to or less than 0 to use all samples from the specified start  to the end of the sample.
@@ -42,12 +45,14 @@ function _AudioFile:cancelPitchAnalysis(channel) end
 ---@param minLength number The minimum duration between consecutive onsets in milliseconds. The value range is from 0 to 10000.
 ---@return number[]
 function _AudioFile:getOnsets(start, length, peakThreshold, sensThreshold, minLength) end
----Function to analyze the levels in an audio file. 
+
+---Function to analyze the levels in an audio file.
 ---@param start number The start position in samples.
 ---@param length number The duration in samples. Set this to equal to or less than 0 to use all samples from the specified start to the end of the file.
 ---@param rms number If this is set to 0, the peak level of the specified range will be returned. If this is set to a value above 0, the RMS level over the specified range will be calculated.
 ---@return number number Returns the level of the specifed range as a linear value.
 function _AudioFile:getPeak(start, length, rms) end
+
 ---Function to obtain the pitch of an audio file that has been analyzed with analyzePitch.
 ---@param start number The start position in samples.
 ---@param length number The duration in samples. Set this to less than or equal to 0 to use all samples from the specified start to the end of the file.
@@ -55,11 +60,11 @@ function _AudioFile:getPeak(start, length, rms) end
 ---@return number pitch A float value representing the pitch as MIDI note number with decimals for cents.
 ---@return boolean boolean return value true means that a pitch was detected in the specified range.
 function _AudioFile:getPitch(start, length, channel) end
+
 ---Function to monitor the progress of analyzePitch.
 ---@param channel? number
 ---@return number progress Returns the progress as a float value between 0 and 1.
 function _AudioFile:getPitchAnalysisProgress(channel) end
-
 
 ---@class Element The Element class is the base class for the classes Bus, Instance, Layer, Effect, MidiModule, ModulationMatrixRow, Slot and Zone.
 ---@field name string Returns the name of the element.
@@ -75,36 +80,45 @@ local _Element = {}
 ---@param nameOrFilterFunction? string|function
 ---@return Element[]
 function _Element:findChildren(recursive, nameOrFilterFunction) end
+
 ---Function to retrieve the Element object of a child in the specified Element object.
 ---@param nameOrPosition? string|number
 ---@return Element?
 function _Element:getChild(nameOrPosition) end
+
 ---Function to read the current value of a parameter. The parameter can be determined by name or ID.
 ---@param nameOrID string|number
 ---@return any
 function _Element:getParameter(nameOrID) end
----Function to retrieve the ParameterDefinition object for a parameter. 
+
+---Function to retrieve the ParameterDefinition object for a parameter.
 ---@param nameOrID string|number
 ---@return ParameterDefinition
 function _Element:getParameterDefinition(nameOrID) end
+
 ---Function to read the current value of a parameter in the normalized range from 0 to 1.0.
 ---@param nameOrID string|number
 ---@return number
 function _Element:getParameterNormalized(nameOrID) end
+
 ---Function to check if a parameter exists. The parameter can be determined by name or ID.
 ---@param nameOrID string|number
 ---@return boolean
 function _Element:hasParameter(nameOrID) end
----Function to remove an element in the Program Tree from the parent element. 
+
+---Function to remove an element in the Program Tree from the parent element.
 function _Element:removeFromParent() end
+
 ---Function to change the name of an element in the Program Tree.
 ---@param name string
 function _Element:setName(name) end
+
 ---Function to set the value of a parameter. The parameter can be determined by name or ID. The function will have no effect if the parameter does not exist.
 ---@param nameOrID string|number
 ---@param value any
 function _Element:setParameter(nameOrID, value) end
----Function to set the value of a parameter in the normalized range from 0 to 1.0. 
+
+---Function to set the value of a parameter in the normalized range from 0 to 1.0.
 ---@param nameOrID string|number
 ---@param value number
 function _Element:setParameterNormalized(nameOrID, value) end
@@ -118,35 +132,38 @@ function _Element:setParameterNormalized(nameOrID, value) end
 local _Bus = {}
 ---@return Bus
 function Bus() end
+
 ---Function to find effects in the specified Element object.
 ---@param recursive? boolean
 ---@param nameOrFilterFunction? string|function
 ---@return Effect[]
 function _Bus:findEffects(recursive, nameOrFilterFunction) end
+
 ---Function to retrieve the Effect object of an effect from the specified bus.
 ---@param nameOrPosition? string|number
 ---@return Effect
 function _Bus:getEffect(nameOrPosition) end
+
 ---Function to insert an effect at a specific position in a destination bus.
 ---@param effect Effect
 ---@param position number
 function _Bus:insertEffect(effect, position) end
+
 ---Function to add an effect to the specified destination bus.
 ---@param effect Effect
 function _Bus:appendEffect(effect) end
+
 ---Function to remove an effect from a bus.
 ---@param effectOrPosition Effect|number
 function _Bus:removeEffect(effectOrPosition) end
+
 ---Function to retrieve the currently assigned output bus of a zone or bus.
 ---@return Bus
 function _Bus:getOutputBus() end
+
 ---Function to assign the output of a zone or bus to the specified output bus.
 ---@param bus Bus
 function _Bus:setOutputBus(bus) end
-
-
-
-
 
 ---@class Effect: Element The Effect class inherits all properties and methods of the Element class.
 ---@field moduleType string Returns the effect type.
@@ -158,8 +175,6 @@ function _Bus:setOutputBus(bus) end
 ---@return Effect
 function Effect(type) end
 
-
-
 ---@class Instance: Element The Instance class inherits all properties and methods of the Element class.
 local _Instance = {}
 ---Function to find busses in the specified Element object.
@@ -167,210 +182,254 @@ local _Instance = {}
 ---@param nameOrFilterFunction? string|function
 ---@return Bus[]
 function _Instance:findBusses(recursive, nameOrFilterFunction) end
+
 ---Function to find effects in the specified Element object.
 ---@param recursive? boolean
 ---@param nameOrFilterFunction? string|function
 ---@return Effect[]
 function _Instance:findEffects(recursive, nameOrFilterFunction) end
+
 ---Function to find the slots of the plug-in instance. Before calling this function you must access the Instance object with this.program.instance.
 ---@param nameOrFilterFunction? string|function
 ---@return Slot[]
 function _Instance:findSlots(nameOrFilterFunction) end
+
 ---Function to retrieve the Bus object of a bus in the specified Element object.
 ---@param nameOrPosition? string|number
 ---@return Bus?
 function _Instance:getBus(nameOrPosition) end
+
 ---Function to retrieve the Slot object of a slot of the plug-in instance.
 ---@param nameOrIndex? string|number
 ---@return Slot?
 function _Instance:getSlot(nameOrIndex) end
+
 ---Function to retrieve the Program object of a program in the Program Table of the plug-in instance.
 ---@param index number
 ---@return Program
 function _Instance:getProgram(index) end
+
 ---Function to set a program in the specified slot of the Program Table or the Slot Rack of the plug-in instance.
 ---@param programOrNil Program|nil
 ---@param index? number
 function _Instance:setProgram(programOrNil, index) end
-
-
 
 ---@class Layer: Element The Layer class inherits all properties and methods of the Element class.
 local _Layer = {}
 ---Constructor to create a new Layer object.
 ---@return Layer
 function Layer() end
+
 ---Function to add a bus in the specified destination layer.
 ---@param bus Bus
 function _Layer:appendBus(bus) end
+
 ---Function to add a layer in the specified destination layer.
 ---@param layer Layer
 function _Layer:appendLayer(layer) end
+
 ---Function to add a layer in the specified destination layer using a separate, parallel thread.
 ---@param layer Layer
 ---@param callback? function
 ---@return LoadProgress
 function _Layer:appendLayerAsync(layer, callback) end
+
 ---Function to add a MIDI module in the specified destination layer.
 ---@param module MidiModule
 function _Layer:appendMidiModule(module) end
+
 ---Function to add a zone in the specified destination layer.
 ---@param zone Zone
 function _Layer:appendZone(zone) end
+
 ---Function to find busses in the specified Element object.
 ---@param recursive? boolean
 ---@param nameOrFilterFunction? string|function
 ---@return Bus[]
 function _Layer:findBusses(recursive, nameOrFilterFunction) end
+
 ---Function to find effects in the specified Element object.
 ---@param recursive? boolean
 ---@param nameOrFilterFunction? string|function
 ---@return Effect[]
 function _Layer:findEffects(recursive, nameOrFilterFunction) end
+
 ---Function to find layers in the specified layer.
 ---@param recursive? boolean
 ---@param nameOrFilterFunction? string|function
 ---@return Layer[]
 function _Layer:findLayers(recursive, nameOrFilterFunction) end
+
 ---Function to find MIDI modules in the specified layer.
 ---@param recursive? boolean
 ---@param nameOrFilterFunction? string|function
 ---@return MidiModule[]
 function _Layer:findMidiModules(recursive, nameOrFilterFunction) end
----Function to find zones in the specified layer. 
+
+---Function to find zones in the specified layer.
 ---@param recursive? boolean
 ---@param nameOrFilterFunction? string|function
 ---@return Zone[]
 function _Layer:findZones(recursive, nameOrFilterFunction) end
+
 ---Function to retrieve the Bus object of a bus in the specified Element object.
 ---@param nameOrPosition? string|number
 ---@return Bus
 function _Layer:getBus(nameOrPosition) end
+
 ---Function to retrieve the Layer object of a layer in the specified layer.
 ---@param nameOrPosition? string|number
 ---@return Layer
 function _Layer:getLayer(nameOrPosition) end
+
 ---Function to retrieve the MidiModule object of a MIDI module in the specified layer.
 ---@param nameOrPosition? string|number
 ---@return MidiModule
 function _Layer:getMidiModule(nameOrPosition) end
+
 ---Function to retrieve the Zone object of a zone in the specified layer.
 ---@param nameOrPosition? string|number
 ---@return Zone
 function _Layer:getZone(nameOrPosition) end
+
 ---Function to insert a bus at the specified position in the destination layer.
 ---@param bus Bus
 ---@param position number
 function _Layer:insertBus(bus, position) end
+
 ---Function to insert a layer at a specific position in a destination layer.
 ---@param layer Layer
 ---@param position number
 function _Layer:insertLayer(layer, position) end
+
 ---Function to insert a layer at a specified position in a destination layer using a separate, parallel thread.
 ---@param layer Layer
 ---@param position number
 ---@param callback? function
 ---@return LoadProgress
 function _Layer:insertLayerAsync(layer, position, callback) end
+
 ---Function to insert a MIDI module at the specified position in the determined destination layer.
 ---@param module MidiModule
 ---@param position number
 function _Layer:insertMidiModule(module, position) end
+
 ---Function to insert a zone at the specified position in the determined layer.
 ---@param zone Zone
 ---@param position number
 function _Layer:insertZone(zone, position) end
+
 ---Function to remove a bus from the specified layer.
 ---@param busOrPosition Bus|number
 function _Layer:removeBus(busOrPosition) end
+
 ---Function to remove a layer from the specified layer.
 ---@param layerOrPosition Layer|number
 function _Layer:removeLayer(layerOrPosition) end
+
 ---Function to remove a MIDI module from the specified layer.
 ---@param moduleOrPosition MidiModule|number
 function _Layer:removeMidiModule(moduleOrPosition) end
+
 ---Function to remove a zone from the specified layer.
 ---@param zoneOrPosition Zone|number
 function _Layer:removeZone(zoneOrPosition) end
+
 ---Function to add a quick control assignment to the specified layer and quick control.
 ---@param qc number
 ---@param element Element
 ---@param nameOrID string|number
 ---@param scope Element
 function _Layer:addQCAssignment(qc, element, nameOrID, scope) end
+
 ---Function to remove a quick control assignment from the specified layer and quick control.
 ---@param qc number
 ---@param assignment number
 function _Layer:removeQCAssignment(qc, assignment) end
+
 ---Function to retrieve the number of assignments of a quick control on the specified layer.
 ---@param qc number
 ---@return number
 function _Layer:getNumQCAssignments(qc) end
----Function to retrieve the parameter ID of the parameter that is connected to the specified quick control assignment. 
+
+---Function to retrieve the parameter ID of the parameter that is connected to the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@return number
 function _Layer:getQCAssignmentParamId(qc, assignment) end
+
 ---Function to retrieve the element object that is set as scope for the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@return Element
 function _Layer:getQCAssignmentScope(qc, assignment) end
+
 ---Function to retrieve the minimum value of the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@return number
 function _Layer:getQCAssignmentMin(qc, assignment) end
+
 ---Function to retrieve the maximum value of the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@return number
 function _Layer:getQCAssignmentMax(qc, assignment) end
+
 ---Function to retrieve the curve value of the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@return number
 function _Layer:getQCAssignmentCurve(qc, assignment) end
+
 ---Function to retrieve the mode that is set for the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@return number
 function _Layer:getQCAssignmentMode(qc, assignment) end
+
 ---Function to retrieve the bypass state of the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@return boolean
 function _Layer:getQCAssignmentBypass(qc, assignment) end
----Function to set the parameter ID for connecting the corresponding parameter to the specified quick control assignment. 
+
+---Function to set the parameter ID for connecting the corresponding parameter to the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@param paramID number
 function _Layer:setQCAssignmentParamId(qc, assignment, paramID) end
----Function to set the scope for the specified quick control assignment. 
+
+---Function to set the scope for the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@param scope Element
 function _Layer:setQCAssignmentScope(qc, assignment, scope) end
+
 ---Function to set the minimum value of the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@param min number
 function _Layer:setQCAssignmentMin(qc, assignment, min) end
+
 ---Function to set the maximum value of the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@param max number
 function _Layer:setQCAssignmentMax(qc, assignment, max) end
+
 ---Function to set the curve value of the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@param curve number
 function _Layer:setQCAssignmentCurve(qc, assignment, curve) end
+
 ---Function to set the mode of the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
 ---@param mode number|QCAssignmentMode
 function _Layer:setQCAssignmentMode(qc, assignment, mode) end
+
 ---Function to set the bypass state of the specified quick control assignment.
 ---@param qc number
 ---@param assignment number
@@ -394,8 +453,6 @@ QCAssignmentMode = {
 ---@return Program
 function Program() end
 
-
-
 ---@class MidiModule: Element The MidiModule class inherits all properties and methods of the Element class.
 ---@field moduleType string Returns the MIDI module type.
 local _MidiModule = {}
@@ -404,7 +461,6 @@ this = _MidiModule
 ---@param type string
 ---@return MidiModule
 function MidiModule(type) end
-
 
 ---@class ModulationMatrixRow: Element The ModulationMatrixRow class inherits all properties and methods of the Element class.
 ---@field rowNumber number Returns the index of the modulation matrix row.
@@ -415,14 +471,17 @@ local _ModulationMatrixRow = {}
 ---@param sourceInfo1? number|Element
 ---@param sourceInfo2? number
 function _ModulationMatrixRow:setSource1(source, sourceInfo1, sourceInfo2) end
+
 ---Function to set the 2nd modulation source of a row in the modulation matrix.
 ---@param source ModulationSource|number
 ---@param sourceInfo1? number|Element
 ---@param sourceInfo2? number
 function _ModulationMatrixRow:setSource2(source, sourceInfo1, sourceInfo2) end
+
 ---Function to retrieve the 1st modulation source of a row in the modulation matrix.
 ---@return ... Returns up to three values, i.e., source, sourceInfo1 and sourceInfo2. The number of return values depends on the modulation source.
 function _ModulationMatrixRow:getSource1() end
+
 ---Function to retrieve the 2nd modulation source of a row in the modulation matrix.
 ---@return ... Returns up to three values, i.e., source, sourceInfo1 and sourceInfo2. The number of return values depends on the modulation source.
 function _ModulationMatrixRow:getSource2() end
@@ -599,21 +658,22 @@ local _Slot = {}
 ---@param nameOrFilterFunction? string|function
 ---@return Bus[]
 function _Slot:findBusses(recursive, nameOrFilterFunction) end
+
 ---Function to find effects in the specified Element object.
 ---@param recursive? boolean
 ---@param nameOrFilterFunction? string|function
 ---@return Effect[]
 function _Slot:findEffects(recursive, nameOrFilterFunction) end
+
 ---Function to retrieve the Bus object of a bus in the specified Element object.
 ---@param nameOrPosition? string|number
 ---@return Bus
 function _Slot:getBus(nameOrPosition) end
+
 ---Function to set a program in the specified slot of the Program Table or the Slot Rack of the plug-in instance.
 ---@param programOrNil Program|nil
 ---@param index? number
 function _Slot:setProgram(programOrNil, index) end
-
-
 
 ---@class Zone: Element The Zone class inherits all properties and methods of the Element class.
 ---@field keyLow number The lowest key of the zone.
@@ -624,18 +684,19 @@ local _Zone = {}
 ---Constructor to create a new Zone object.
 ---@return Zone
 function Zone() end
+
 ---Function to obtain the ModulationMatrixRow object of the specified modulation matrix row.
 ---@param rowNumber number
 ---@return ModulationMatrixRow
 function _Zone:getModulationMatrixRow(rowNumber) end
+
 ---Function to retrieve the currently assigned output bus of a zone or bus.
 ---@return Bus
 function _Zone:getOutputBus() end
----Function to assign the output of a zone or bus to the specified output bus. 
+
+---Function to assign the output of a zone or bus to the specified output bus.
 ---@param bus Bus|nil
 function _Zone:setOutputBus(bus) end
-
-
 
 ---@class Event The Event class describes the properties of events.
 ---@field type number The type of event.
@@ -707,11 +768,10 @@ local _ParameterDefinition = {}
 ---@return string
 function _ParameterDefinition:getDisplayString(value) end
 
-
-
 ---Function that gives access to protected layers.
 ---@param pwd string
 function addLayerPassword(pwd) end
+
 ---Function to generate channel aftertouch events.
 ---@param value number The aftertouch value in the range of 0 to 127.
 function afterTouch(value) end
@@ -726,13 +786,16 @@ function afterTouch(value) end
 ---@param scope Element The Element object that will be affected by the automation parameter.
 ---@return number index Returns the index to which the automation parameter was assigned to.
 function assignAutomation(element, nameOrID, index, scope) end
+
 ---Function to convert a number of beats to the equivalent duration in milliseconds.
 ---@param beats number The desired duration in number of beats and fractions of it.
 ---@return number ms Returns the specified number of beats (quarter notes) as duration in milliseconds.
 function beat2ms(beats) end
+
 ---Function to generate the modulation signals that have been defined with defineModulation.
 ---@return any #Returns one or more modulation signals. Multiple modulation signals can be returned as a tuple or as a table. If the modulation is defined as unipolar, the signal must be in the range from 0.0 to 1.0. If the modulation is defined as bipolar, the signal must be in the range from -1.0 to 1.0.
 function calcModulation() end
+
 ---Function to change the note expression of a specific note.
 ---@param noteID number The ID of the note you want to change.
 ---@param type NoteExpressionType|number The note expression type. It can be determined via names or indices.
@@ -740,51 +803,62 @@ function calcModulation() end
 ---@param relative? boolean The value is added to the current amount if this is set to true. The default setting is false.
 ---@param immediateOrDuration? boolean Change the value immediately or in the specified duration.
 function changeNoteExpression(noteID, type, value, relative, immediateOrDuration) end
+
 ---Function to change the position of a specific note in the panorama.
 ---@param noteID number The ID of the note that you want to change.
 ---@param pan number The absolute pan position in the range of -1.0 to 1.0 (relative = false) or the value which is added (relative = true).
 ---@param relative? boolean The value is added to the current amount if this is set to true. The default is false.
 ---@param immediateOrDuration? boolean|number Change the value immediately or in the specified duration.
 function changePan(noteID, pan, relative, immediateOrDuration) end
+
 ---Function to change the tuning of a specific note in semitones.
 ---@param noteID number The ID of the note that you want to change.
 ---@param tune number The absolute tuning in the range of -120.0 to 120.0 semitones (relative = false) or the value which is added (relative = true).
 ---@param relative? boolean The value is added to the current amount if this is set to true. The default is false.
 ---@param immediateOrDuration? boolean|number Change the value immediately or in the specified duration.
 function changeTune(noteID, tune, relative, immediateOrDuration) end
+
 ---Function to change the volume of a specific note. A gain factor greater than 1.0 amplifies the signal and a gain factor smaller than 1.0 attenuates the signal.
 ---@param noteID number The ID of the note that you want to change.
 ---@param gain number The absolute gain (relative = false) or the value which is added (relative = true).
 ---@param relative? boolean The value is added to the current amount if this is set to true. The default is false.
 ---@param immediateOrDuration? boolean|number Change the value immediately or in the specified duration.
 function changeVolume(noteID, gain, relative, immediateOrDuration) end
+
 ---Function to change the volume of a specific note in decibels (dB). Positive values amplify the signal and negative values attenuate the signal.
 ---@param noteID number The ID of the note that you want to change.
 ---@param gain_dB number The absolute gain in dB (relative = false) or the value which is added (relative = true).
 ---@param relative? boolean The value is added to the current amount if  this is set to true. The default is false.
 ---@param immediateorDuration? boolean|number Change the value immediately or in the specified duration.
 function changeVolumedB(noteID, gain_dB, relative, immediateorDuration) end
+
 ---Function to create a copy of the specified object.
 ---@param object Bus|Effect|Event|Layer|MidiModule|Program|Zone The object to be cloned.
 ---@return Bus|Effect|Event|Layer|MidiModule|Program|Zone #Returns a copy of the specified object.
 function clone(object) end
+
 ---Function to generate controller events.
 ---@param controller number The controller number.
 ---@param value number The controller value in the range of 0 to 127.
 function controlChange(controller, value) end
+
 ---Function to declare a modulation output for the script module, which can be assigned in the modulation matrix of the zone.
 ---@param name string The name of the modulation output as it will be shown in the modulation matrix of the zone.
 ---@param bipolar boolean If this is set to true, the output is expected to be in the range from -1.0 to 1.0. If this is set to false, the output is expected to be in the range from 0.0 to 1.0.
 function defineModulation(name, bipolar) end
+
 ---Function to specify a parameter with the specified name and characteristics.
 ---@param name string
 ---@param ... any
 function defineParameter(name, ...) end
+
 ---Function to attain global variables that operate independently per slot.
 ---@param name string The name of the global variable.
 function defineSlotLocal(name) end
+
 ---Function to terminate an undo block.
 function endUndoBlock() end
+
 ---Function to fade the volume of a specific note.
 ---@param noteID number The ID of the note you want to fade.
 ---@param startValue number|nil The start value of the fade in the range of 0 to 1.0. Set this to nil to start the fade from the current value of a running fade.
@@ -792,49 +866,63 @@ function endUndoBlock() end
 ---@param duration number The length of the fade in milliseconds. The target value is set instantaneously if this is set to <= 0.
 ---@param killVoice? boolean Set this to true to kill the note when the target value reached. The default is false.
 function fade(noteID, startValue, targetValue, duration, killVoice) end
+
 ---Function to remove the specified parameter from its automation parameter.
 ---@param element Element The Element object of the parameter to be removed.
 ---@param nameOrID string|number The name or ID of the parameter.
 function forgetAutomation(element, nameOrID) end
+
 ---Function to obtain the number of bytes which have been allocated to the script in the memory.
 ---@return number #Returns the number of bytes which have been allocated to the script in the memory.
 function getAllocatedMemory() end
+
 ---Function to retrieve the index of the automation parameter to which the specified parameter is assigned.
 ---@param element Element The Element object of the parameter to be connected.
 ---@param nameOrID string|number The ID of the parameter.
 ---@return number|nil #Returns the the index of the automation parameter to which the specified parameter is assigned, or nil if the specified parameter is not assigned.
 function getAutomationIndex(element, nameOrID) end
+
 ---Function to obtain the duration of one bar in milliseconds.
 ---@return number #Returns the duration of one bar in milliseconds based on the current time signature and tempo.
 function getBarDuration() end
+
 ---Function to obtain the duration of one beat in milliseconds.
 ---@return number #Returns the duration of one beat in milliseconds.
 function getBeatDuration() end
+
 ---Function to obtain the current song position in number of beats (quarter notes).
 ---@return number #When the host is in playback, the function returns a decimal with the number of beats (quarter notes) since the start of the song. The start of the song equals 0 beats. The function returns -1 if the host is not in playback.
 function getBeatTime() end
+
 ---Function to obtain the position in the current bar in number of beats (quarter notes).
 ---@return number #When the host is in playback, the function returns a decimal with the number of beats (quarter notes) since the start of the current bar. The start of the bar equals 0 beats. The function returns -1 if the host is not in playback.
 function getBeatTimeInBar() end
+
 ---Function to read the current value of a continuous controller.
 ---@param controller number The controller number.
 ---@return number #Returns the current value of the continuous controller specified by the argument.
 function getCC(controller) end
+
 ---Function to obtain the name of the context.
 ---@return string #Returns a string with the name of the context in which the function is called.
 function getContext() end
+
 ---Function to obtain the Element object of an element that has a macro page.
 ---@return Layer|MidiModule #Returns the Element object of the element to which the macro page is attached.
 function getElement() end
+
 ---Function to retrieve the number of free voices of the plug-in instance.
 ---@return number #Returns the number of free voices of the plug-in instance.
 function getFreeVoices() end
+
 ---Function to retrieve the name of the host software.
 ---@return string #Returns a string with the name of the host software.
 function getHostName() end
+
 ---Function to retrieve the version of the host software.
 ---@return string #Returns a string with the version of the host software.
 function getHostVersion() end
+
 ---Function to access the internal key properties array.
 ---@return keyProperty[] #Returns the reference to the internal key properties array.
 function getKeyProperties() end
@@ -845,18 +933,22 @@ function getKeyProperties() end
 ---Function to access the internal key switch array.
 ---@return keySwitch[] #Returns the internal key switch array.
 function getKeySwitches() end
+
 ---Function to obtain the current song position in milliseconds.
 ---@return number #When the host is in playback, the function returns a decimal with the milliseconds since the start of the song. The start of the song equals 0 ms. The function returns -1 if the host is not in playback.
 function getMsTime() end
+
 ---Function to measure the time delta between the last note-on event of the specified note and the call of this function.
 ---@param note number The note number in the range of 0 to 127.
 ---@return number ms Returns the time delta in milliseconds.
 function getNoteDuration(note) end
+
 ---Function to read the current value of a note expression of a specific note.
 ---@param noteID number The note ID of the associated note.
 ---@param type NoteExpressionType|number The note expression type. It can be determined via names or indices.
 ---@return number #Returns the current value of the note expression determined by the arguments. The function returns -1 if the value of the note expression has not been set yet.
 function getNoteExpression(noteID, type) end
+
 ---Function to access the internal array that manages the appearance of the custom note expressions.
 ---@return noteExpressionProperty[] #Returns the reference to the internal note expression properties array.
 function getNoteExpressionProperties() end
@@ -866,34 +958,44 @@ function getNoteExpressionProperties() end
 ---Function to obtain the number of processed samples since the initialization of the plug-in.
 ---@return number #Returns the number of processed samples since the initialization of the plug-in.
 function getProcessedSamples() end
+
 ---Function to retrieve the name of the plug-in.
 ---@return string #Returns a string with the name of the plug-in.
 function getProductName() end
+
 ---Function to retrieve the version of the plug-in.
 ---@return string #Returns a string with the version of the plug-in.
 function getProductVersion() end
+
 ---Function to retrieve the sample rate from the host software.
 ---@return number #Returns the sample rate of the host software in Hertz
 function getSamplingRate() end
+
 ---Function to read the duration of the script execution time-out either for the controller or the processor thread, depending on where getScriptExecTimeOut is called.
 ---@return number #Returns the duration of the script execution time-out in milliseconds either for the controller or the processor thread.
 function getScriptExecTimeOut() end
+
 ---Function to retrieve the version of the script engine.
 ---@return string #Returns a string with the version of the script engine.
 function getScriptVersion() end
+
 ---Function to retrieve the index of the slot in which the program is loaded.
 ---@return number #Returns the index of the slot in which the program is loaded.
 function getSlotIndex() end
+
 ---Function to read the tempo of the host software.
 ---@return number #Returns the current tempo in beats per minute (BPM). If no tempo information is available, this function returns the value -1.
 function getTempo() end
+
 ---Function to obtain the time in milliseconds since the initialization of the script.
 ---@return number #Returns the time in milliseconds since the initialization of the script.
 function getTime() end
+
 ---Function to read the time signature from the host software.
 ---@return number numerator
 ---@return number denominator
 function getTimeSignature() end
+
 ---Function to check if the current script execution is part of an undo or redo operation.
 ---@return number|nil #The function returns 1 if the changes come from an undo operation, 2 if the changes come from a redo operation, nil if the changes do not come from an undo or redo operation.
 function getUndoContext() end
@@ -907,19 +1009,24 @@ UndoContext = {
 ---Function to obtain the amount of memory that is used by the script.
 ---@return number #Returns the number of bytes in the memory that are used by the script.
 function getUsedMemory() end
+
 ---Function to obtain the number of used voices of the plug-in instance.
 ---@return number #Returns the number of used voices of the plug-in instance.
 function getUsedVoices() end
+
 ---Function to obtain the number of used voices of the slot in which a program is loaded.
 ---@return number #Returns the number of used voices of the corresponding slot.
 function getUsedVoicesOfSlot() end
+
 ---Function to obtain the file path for the user VST presets of a product. If no product is set, the function returns the file path of the current plug-in.
 ---@param product? string The name of the product.
 ---@return string #Returns the file path for the user VST presets of the specified product.
 function getUserPresetPath(product) end
+
 ---Function to retrieve the maximum number of voices of the plug-in instance as set in the Options editor.
 ---@return number #Returns the maximum number of voices of the plug-in instance.
 function getVoices() end
+
 ---Function to insert an envelope point in the specified envelope.
 ---@param envelopeArray table An array with envelope points.
 ---@param index number The index of the point where the new point will be inserted.
@@ -927,33 +1034,41 @@ function getVoices() end
 ---@param duration number The duration of the new point in the range from 0 to 30 seconds. The duration of the first point is always 0 seconds.
 ---@param curve number The curve of the new point in the range from -1 to 1.
 function insertEnvelopePoint(envelopeArray, index, level, duration, curve) end
+
 ---Function to insert an event in the specified events table according to its PPQ position.
 ---@param eventsTable table The table record referencing the events table.
 ---@param event Event The Event object to be inserted.
 function insertEvent(eventsTable, event) end
+
 ---Function to detect whether a key with a specific note number is held or not.
 ---@param note number The note number in the range of 0 to 127.
 ---@return boolean #Returns true if the key with the specified note number is held and false if the key has been released.
 function isKeyDown(note) end
+
 ---Function to detect inside the onNote callback function if a note is held or not.
 ---@return boolean #Returns true if onNote has received a note-on event and false if onNote has received a corresponding note-off event.
 function isNoteHeld() end
+
 ---Function to detect whether a key is held or not, regardless of the octave.
 ---@param note number The note number which specifies the key in the range of 0 to 127.
 ---@return boolean #Returns true if the specified key is held, no matter in which octave. The function returns false if the specified key and any octave keys have been released.
 function isOctaveKeyDown(note) end
+
 ---Function to detect whether the host is in playback.
 ---@return boolean #Returns true if the host is in playback and false if not.
 function isPlaying() end
+
 ---Function to load the elements of a VST preset.
 ---@param path string The path and file name of the VST preset.
 ---@return Layer|Program|Instance #Returns an Element object of the type Layer, Program or Instance, depending on whether a layer, program or multi-program VST preset was loaded.
 function loadPreset(path) end
+
 ---Function to load the elements of a VST preset in a separate, parallel thread.
 ---@param path string The path and file name of the VST preset.
 ---@param callback? function Callback function that is called after the preset is loaded.
 ---@return LoadProgress #Returns a LoadProgress object.
 function loadPresetAsync(path, callback) end
+
 ---Function to open a modal message box.
 ---@param stringOrConfigTable string|messageBoxConfigTable The message as a string or the configuration table that customizes the message box.
 ---@return number #Returns the result of the message box, i.e., which action closed the message box, as a number.
@@ -980,62 +1095,82 @@ MessageBoxResult = {
 ---@param ms number The duration in milliseconds.
 ---@return number #Returns the number of beats (quarter notes) that is the equivalent of the specified duration.
 function ms2beat(ms) end
+
 ---Function to convert a duration in milliseconds to the equivalent number of samples. The conversion takes into account the sample rate at which the plug-in runs.
 ---@param ms number The duration in milliseconds.
 ---@return number #Returns the number of samples that is the equivalent of the specified duration in milliseconds.
 function ms2samples(ms) end
+
 ---This callback function is called when the script module receives a channel aftertouch event.
 ---@param event Event
 function onAfterTouch(event) end
+
 ---This callback function is called when the script module receives a continuous controller event.
 ---@param event Event
 function onController(event) end
+
 ---This callback function is called periodically if the script is idle. Use this to monitor the progress of load operations, for example.
 function onIdle() end
+
 ---This callback function is called after executing any global statements and the onLoadIntoSlot callback function. It is the first callback function that is called when the processor thread is initialized.
 function onInit() end
+
 ---This callback function is called when the script module is loaded as part of a preset or project. The data that is passed on is the data that was returned by onSave when the script module was saved.
 ---@param data any
 function onLoad(data) end
+
 ---This callback function is called when the program is loaded into the Slot Rack. Any global statements are executed in advance. onInit is called after onLoadIntoSlot.
 function onLoadIntoSlot() end
----This callback function is called when loading a subpreset with a corresponding Preset Browser template. 
+
+---This callback function is called when loading a subpreset with a corresponding Preset Browser template.
 ---@param section string The section as defined in the Preset Browser Custom template.
 ---@param data any The data that was returned by onSaveSubPreset.
 function onLoadSubPreset(section, data) end
+
 ---This callback function is called when the script module receives a note-on event.
 ---@param event noteOn
 function onNote(event) end
+
 ---This callback function is called when the script module receives a note expression event.
 ---@param event noteExpression
 function onNoteExpression(event) end
+
 ---This callback function is called when the script module receives a pitch bend event.
 ---@param event Event
 function onPitchBend(event) end
+
 ---This callback function is called when the script module receives a note-off event.
 ---@param event noteOff
 function onRelease(event) end
----This callback function is called when the program is removed from the Slot Rack. 
+
+---This callback function is called when the program is removed from the Slot Rack.
 function onRemoveFromSlot() end
+
 ---This callback function is called when the script module is saved as part of a preset or project. The data you pass on to the return statement will be stored with the preset or project.
 ---@return any data The returned data will be stored as part of the preset or project.
 function onSave() end
+
 ---This callback function is called when saving a subpreset with a corresponding Preset Browser template.
 ---@param section string The section as defined in the Preset Browser Custom template.
 ---@return any data The returned data will be stored in a subpreset.
 function onSaveSubPreset(section) end
+
 ---This callback function is called when the script module receives a trigger event from a trigger pad.
 ---@param number number The number of the trigger pad in the range from 1 to 8.
 function onTriggerPad(number) end
+
 ---This callback function is called when the script module receives an event that is not handled by the specific event callback functions, e.g., onNote, onRelease, onController and onNoteExpression.
 ---@param event Event The Event object.
 function onUnhandledEvent(event) end
+
 ---Function to open a  website in the web browser.
 ---@param adress string The internet adress of the website.
 function openURL(adress) end
+
 ---Function to generate pitch bend events.
 ---@param value number The pitch bend value in the range of -1.0 to 1.0.
 function pitchBend(value) end
+
 ---Function to generate note events.
 ---@param note number The note number of the note in the range of 0 to 127.
 ---@param velocity number The velocity of the note in the range of 0 to 127.
@@ -1046,19 +1181,23 @@ function pitchBend(value) end
 ---@param tune? number The initial tuning in the range of -120.0 to 120.0. The default is 0.
 ---@return number id Returns the note ID of the generated note.
 function playNote(note, velocity, duration, layerOrZone, volume, pan, tune) end
+
 ---Function to send the trigger events of the Trigger Pads to subsequent modules of the script module.
 ---@param number number The number of the trigger pad in the range from 1 to 8.
 function playTriggerPad(number) end
+
 ---Function to post the event to the engine. The second argument is optional. It allows you to delay the event by a specific time in milliseconds.
 ---@param event Event The Event object that will be posted.
 ---@param delay? number Delay time in milliseconds. The default is 0 ms.
 ---@return number id Returns a note ID in case of a note-on event, nil for any other type of event.
 function postEvent(event, delay) end
+
 ---Receives any number of arguments and prints their values to the output window of the script module.
 ---@param value1 any
 ---@param value2 any
 ---@param ... any
 function printRaw(value1, value2, ...) end
+
 ---Function to read a MIDI file (.mid). The function creates a MIDI sequence table that contains the data of the MIDI file.
 ---@param path string The path and file name of the MIDI file.
 ---@return midiSequenceTable #Returns a MIDI sequence table.
@@ -1077,32 +1216,39 @@ MidiFileFormat = {
 ---Function to release a note with a specific note ID.
 ---@param noteID number The note ID of the note you want to release.
 function releaseVoice(noteID) end
+
 ---Executes a function in the controller thread. By calling runAsync in the processor thread, you can invoke a function that is executed in the controller thread.
 ---@param func function The name of the function to be called.
 ---@param arg1? any
 ---@param arg2? any
 ---@param ...? unknown
 function runAsync(func, arg1, arg2, ...) end
+
 ---Executes a function in the processor thread. By calling runSync in the controller thread, you can invoke a function that is executed in the processor thread.
 ---@param func function The name of the function to be called.
 ---@param id? number If this is specified, another call to runSync with the same ID overwrites the previous function if it has not been executed yet.
 function runSync(func, id) end
+
 ---Function to convert a number of samples to the equivalent duration in milliseconds. The sample rate at which the plug-in runs is taken into account.
 ---@param samples number The number of samples.
 ---@return number #Returns the specified number of samples as duration in milliseconds.
 function samples2ms(samples) end
+
 ---Function to specify the maximum allowed execution time of a function call in the script.
 ---@param duration number The duration for the script execution time-out in milliseconds.
 function setScriptExecTimeOut(duration) end
+
 ---Function to sort the events of the specified events table according to their PPQ position.
 ---@param eventsTable table
 function sortEvents(eventsTable) end
+
 ---Calls a Lua function and executes it in a separate, parallel thread.
 ---@param func function The name of the function to be called.
 ---@param arg1? any
 ---@param arg2? any
 ---@param ...? unknown
 function spawn(func, arg1, arg2, ...) end
+
 ---Function to combine multiple undo entries into one undo block.
 ---@param name string This will be displayed as entry in the undo history.
 ---@param id? number Set this to combine the undo blocks that refer to this ID.
@@ -1124,11 +1270,14 @@ StealMode = {
 ---Function to suspend the execution of a callback for a specific time in milliseconds.
 ---@param ms number Time in ms.
 function wait(ms) end
+
 ---Function to suspend the execution of a callback for a specific time. This time is specified in number of beats.
 ---@param beats number Time in number of quarter notes and fractions of it.
 function waitBeat(beats) end
+
 ---Function to suspend the execution of the onNote callback until the note that called onNote gets released either by a corresponding note-off or sustain pedal off.
 function waitForRelease() end
+
 ---Function to write a MIDI file (.mid) to disk.
 ---@param path string The path and file name of the MIDI file.
 ---@param midiSequence midiSequenceTable The MIDI sequence table that contains the data.
