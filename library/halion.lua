@@ -71,7 +71,7 @@ function _AudioFile:getPitchAnalysisProgress(channel) end
 ---@field id string Returns the unique ID of the element.
 ---@field type string Returns the type of the element.
 ---@field parameterDefinitions ParameterDefinition[] Returns an array with all ParameterDefinition objects of the element.
----@field parent Layer Returns the parent element in the Program Tree. This evaluates to nil if the element is the program.
+---@field parent Layer|nil Returns the parent element in the Program Tree. This evaluates to nil if the element is the program.
 ---@field program Program Returns the program element in the Program Tree.
 ---@field level number Returns the level in the Program Tree hierarchy. The program equals level 1. Each sublayer adds +1 to the level.
 local _Element = {}
@@ -83,7 +83,7 @@ function _Element:findChildren(recursive, nameOrFilterFunction) end
 
 ---Function to retrieve the Element object of a child in the specified Element object.
 ---@param nameOrPosition? string|number
----@return Element?
+---@return Element|nil
 function _Element:getChild(nameOrPosition) end
 
 ---Function to read the current value of a parameter. The parameter can be determined by name or ID.
@@ -141,7 +141,7 @@ function _Bus:findEffects(recursive, nameOrFilterFunction) end
 
 ---Function to retrieve the Effect object of an effect from the specified bus.
 ---@param nameOrPosition? string|number
----@return Effect
+---@return Effect|nil
 function _Bus:getEffect(nameOrPosition) end
 
 ---Function to insert an effect at a specific position in a destination bus.
@@ -158,7 +158,7 @@ function _Bus:appendEffect(effect) end
 function _Bus:removeEffect(effectOrPosition) end
 
 ---Function to retrieve the currently assigned output bus of a zone or bus.
----@return Bus
+---@return Bus|nil
 function _Bus:getOutputBus() end
 
 ---Function to assign the output of a zone or bus to the specified output bus.
@@ -195,12 +195,12 @@ function _Instance:findSlots(nameOrFilterFunction) end
 
 ---Function to retrieve the Bus object of a bus in the specified Element object.
 ---@param nameOrPosition? string|number
----@return Bus?
+---@return Bus|nil
 function _Instance:getBus(nameOrPosition) end
 
 ---Function to retrieve the Slot object of a slot of the plug-in instance.
 ---@param nameOrIndex? string|number
----@return Slot?
+---@return Slot|nil
 function _Instance:getSlot(nameOrIndex) end
 
 ---Function to retrieve the Program object of a program in the Program Table of the plug-in instance.
@@ -273,22 +273,22 @@ function _Layer:findZones(recursive, nameOrFilterFunction) end
 
 ---Function to retrieve the Bus object of a bus in the specified Element object.
 ---@param nameOrPosition? string|number
----@return Bus
+---@return Bus|nil
 function _Layer:getBus(nameOrPosition) end
 
 ---Function to retrieve the Layer object of a layer in the specified layer.
 ---@param nameOrPosition? string|number
----@return Layer
+---@return Layer|nil
 function _Layer:getLayer(nameOrPosition) end
 
 ---Function to retrieve the MidiModule object of a MIDI module in the specified layer.
 ---@param nameOrPosition? string|number
----@return MidiModule
+---@return MidiModule|nil
 function _Layer:getMidiModule(nameOrPosition) end
 
 ---Function to retrieve the Zone object of a zone in the specified layer.
 ---@param nameOrPosition? string|number
----@return Zone
+---@return Zone|nil
 function _Layer:getZone(nameOrPosition) end
 
 ---Function to insert a bus at the specified position in the destination layer.
@@ -665,7 +665,7 @@ function _Slot:findEffects(recursive, nameOrFilterFunction) end
 
 ---Function to retrieve the Bus object of a bus in the specified Element object.
 ---@param nameOrPosition? string|number
----@return Bus
+---@return Bus|nil
 function _Slot:getBus(nameOrPosition) end
 
 ---Function to set a program in the specified slot of the Program Table or the Slot Rack of the plug-in instance.
@@ -689,7 +689,7 @@ function Zone() end
 function _Zone:getModulationMatrixRow(rowNumber) end
 
 ---Function to retrieve the currently assigned output bus of a zone or bus.
----@return Bus
+---@return Bus|nil
 function _Zone:getOutputBus() end
 
 ---Function to assign the output of a zone or bus to the specified output bus.
